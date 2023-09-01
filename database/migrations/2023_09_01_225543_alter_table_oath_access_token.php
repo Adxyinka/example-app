@@ -11,21 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->ulid('id')->primary()->uniqid();
-            $table->string('name');
-            $table->string('password');
-            $table->string('confirm_password');
-            // $table->rememberToken();
-            $table->timestamps();
+        Schema::table('oauth_access_tokens', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+        Schema::table('oauth_access_tokens', function (Blueprint $table) {
+            $table->ulid('user_id')->index()->nullable();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        //
     }
 };
